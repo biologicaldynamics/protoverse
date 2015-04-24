@@ -1,0 +1,18 @@
+topology: Topology {
+    shape: Rectangle {
+        width: 10;
+        height: 10;
+    };
+    lattice: Rectangular;
+    boundary: Periodic;
+};
+
+initially: Scatter {
+    count: 1;
+    description:
+        Agent:
+            do: Behavior {
+                    action: wander;
+                    every: 1.0;
+                };
+};
