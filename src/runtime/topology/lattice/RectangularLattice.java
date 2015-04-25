@@ -5,6 +5,8 @@
 
 package runtime.topology.lattice;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import runtime.topology.coordinate.Coordinate2D;
 
 import java.util.stream.IntStream;
@@ -14,6 +16,13 @@ import java.util.stream.Stream;
  * Created by dbborens on 3/10/15.
  */
 public class RectangularLattice extends Lattice<Coordinate2D> {
+
+    private Logger logger;
+
+    public RectangularLattice() {
+        logger = LoggerFactory.getLogger(RectangularLattice.class);
+        logger.debug("Constructing new RectangularLattice.");
+    }
 
     @Override
     public Stream<Coordinate2D> getAnnulus(Coordinate2D coordinate, int r) {

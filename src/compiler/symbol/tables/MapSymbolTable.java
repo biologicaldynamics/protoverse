@@ -6,10 +6,12 @@
 package compiler.symbol.tables;
 
 import com.google.common.reflect.TypeToken;
+import compiler.pipeline.translate.nodes.MapObjectNode;
 import compiler.symbol.symbols.MemberSymbol;
 import compiler.util.UnrecognizedIdentifierError;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import runtime.topology.Topology;
 
 import java.util.HashMap;
 

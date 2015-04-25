@@ -13,16 +13,16 @@ import runtime.util.halt.HaltCondition;
  */
 public class Simulation implements Runnable {
    
-    private EventSchedule scheduler;
+    private EventSchedule schedule;
 
-    public Simulation(EventSchedule scheduler) {
-        this.scheduler = scheduler;
+    public Simulation(EventSchedule schedule) {
+        this.schedule = schedule;
     }
 
     @Override
     public void run() {
         try {
-            while(true) { scheduler.advance(); }
+            while(true) { schedule.advance(); }
         } catch (HaltCondition ex) {
             System.out.println("Simulation complete: " + ex);
             System.err.println("This should now hand control to a 'finally()' handler for resolving output, etc.");
@@ -31,6 +31,6 @@ public class Simulation implements Runnable {
     }
 
     public Double getTime() {
-        return scheduler.getTime();
+        return schedule.getTime();
     }
 }

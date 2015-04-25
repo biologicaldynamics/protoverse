@@ -25,4 +25,5 @@ public class TopologyClassSymbolTable extends ClassSymbolTable<Topology> {
         ClassSymbol cs = new ClassSymbol(supplier, "A Nanoverse topology.");
         ret.put("Topology", cs);
     }
+
 }

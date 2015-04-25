@@ -7,12 +7,14 @@ package compiler;
 
 import compiler.pipeline.interpret.Interpreter;
 import compiler.pipeline.interpret.nodes.ASTNode;
+import compiler.pipeline.translate.nodes.MapObjectNode;
 import compiler.pipeline.translate.nodes.ObjectNode;
 import compiler.pipeline.translate.visitors.MasterTranslationVisitor;
 import compiler.symbol.tables.SymbolTable;
 import compiler.symbol.tables.runtime.control.SimulationSymbolTable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import runtime.control.Simulation;
 
 import java.io.File;
 
@@ -36,6 +38,9 @@ public class NanoverseCompiler {
         logger.debug("Abstract syntax tree is reported below\n" + sb.toString());
         MasterTranslationVisitor visitor = new MasterTranslationVisitor();
         SymbolTable rootMST = new SimulationSymbolTable();
-        ObjectNode objRoot = visitor.translate(astRoot, rootMST);
+        MapObjectNode objRoot = (MapObjectNode) visitor.translate(astRoot, rootMST);
+
+        SimulationSymbolTable rootST = (SimulationSymbolTable) objRoot.getSymbolTable();
+        Simulation simulation = rootST.instantiate(objRoot);
     }
 }

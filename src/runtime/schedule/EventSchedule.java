@@ -28,6 +28,7 @@ public class EventSchedule {
         this.schedulerContent = schedulerContent;
         time = 0.0;
     }
+
     /**
      * Report current simulation time.
      * @return
