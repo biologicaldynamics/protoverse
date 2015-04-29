@@ -1,5 +1,7 @@
 package compiler.symbol.tables.runtime.topology.shape;
 
+import compiler.pipeline.translate.nodes.MapObjectNode;
+import compiler.pipeline.translate.nodes.ObjectNode;
 import compiler.symbol.tables.MapSymbolTable;
 import runtime.topology.lattice.Lattice;
 import runtime.topology.shape.Shape;
@@ -9,5 +11,5 @@ import runtime.topology.shape.Shape;
  */
 public abstract class ShapeInstanceSymbolTable extends MapSymbolTable<Shape> {
 
-    public abstract Shape instantiate(Lattice lattice);
+    public abstract Shape instantiate(ObjectNode node, Lattice lattice);
 }

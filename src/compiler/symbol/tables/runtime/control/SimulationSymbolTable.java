@@ -1,18 +1,26 @@
 package compiler.symbol.tables.runtime.control;
 
+import compiler.pipeline.translate.nodes.ListObjectNode;
 import compiler.pipeline.translate.nodes.MapObjectNode;
+import compiler.pipeline.translate.nodes.ObjectNode;
 import compiler.symbol.symbols.MemberSymbol;
 import compiler.symbol.tables.ClassSymbolTable;
 import compiler.symbol.tables.ListSymbolTable;
 import compiler.symbol.tables.MapSymbolTable;
 import compiler.symbol.tables.runtime.process.AgentProcessClassSymbolTable;
+import compiler.symbol.tables.runtime.process.AgentProcessInstanceSymbolTable;
 import compiler.symbol.tables.runtime.topology.TopologyClassSymbolTable;
 import compiler.symbol.tables.runtime.topology.TopologyInstanceSymbolTable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import runtime.agent.actions.time.SingularEventTimer;
 import runtime.control.Simulation;
+import runtime.layer.agent.AgentLayer;
+import runtime.process.agent.AgentProcess;
 import runtime.schedule.EventSchedule;
+import runtime.schedule.event.DeterministicEvent;
 import runtime.topology.Topology;
+import runtime.util.Global;
 
 import java.util.HashMap;
 
@@ -56,17 +64,37 @@ public class SimulationSymbolTable extends MapSymbolTable<Simulation> {
 
         // Build the simulation itself.
         EventSchedule schedule = new EventSchedule();
+        Global global = new Global();
         Simulation simulation = new Simulation(schedule);
 
         // Build the topology.
         MapObjectNode topologyNode = (MapObjectNode) node.getMember("topology");
         TopologyInstanceSymbolTable topoST = (TopologyInstanceSymbolTable) topologyNode.getSymbolTable();
         Topology topology = topoST.instantiate(topologyNode);
+        AgentLayer agentLayer = new AgentLayer(topology);
 
         // Build initial actions.
-        logger.warn("*** Initial actions not implemented.");
+        ListObjectNode initially = (ListObjectNode) node.getMember("initially");
+        initially.getMemberStream().forEach(childNode -> {
+            DeterministicEvent event = makeProcess(childNode, simulation, global, agentLayer, schedule);
+            logger.debug("Scheduling event {}.", event.toString());
+        });
 
         // Return the simulation.
         return simulation;
+    }
+
+    private DeterministicEvent makeProcess(ObjectNode childNode,
+                                           Simulation simulation,
+                                           Global global,
+                                           AgentLayer agentLayer,
+                                           EventSchedule schedule) {
+        AgentProcessInstanceSymbolTable st = (AgentProcessInstanceSymbolTable) childNode.getSymbolTable();
+        AgentProcess process = st.instantiate((MapObjectNode) childNode,
+                global,
+                agentLayer, schedule);
+        SingularEventTimer timer = new SingularEventTimer(0.0);
+        DeterministicEvent event = new DeterministicEvent(simulation, process, timer);
+        return event;
     }
 }

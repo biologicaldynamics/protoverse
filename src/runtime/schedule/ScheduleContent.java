@@ -5,7 +5,7 @@
 
 package runtime.schedule;
 
-import runtime.agent.Agent;
+import runtime.control.Entity;
 import runtime.schedule.event.DeterministicEvent;
 import runtime.util.IdentityMultimap;
 
@@ -17,37 +17,37 @@ import java.util.stream.Stream;
  */
 public class ScheduleContent {
 
-    private final IdentityMultimap<Agent, DeterministicEvent> multimap;
+    private final IdentityMultimap<Entity, DeterministicEvent> multimap;
     private final EventQueue queue;
 
     public ScheduleContent() {
         this(new IdentityMultimap<>(), new EventQueue());
     }
 
-    public ScheduleContent(IdentityMultimap<Agent, DeterministicEvent> multimap,
+    public ScheduleContent(IdentityMultimap<Entity, DeterministicEvent> multimap,
                            EventQueue queue) {
         this.multimap = multimap;
         this.queue = queue;
     }
 
     public void add(DeterministicEvent event) {
-        Agent agent = event.getAgent();
-        if (multimap.has(agent, event)) {
-            throw new IllegalArgumentException("Attempting double scheduling of agent-event pair.");
+        Entity entity = event.getEntity();
+        if (multimap.has(entity, event)) {
+            throw new IllegalArgumentException("Attempting double scheduling of entity-event pair.");
         }
         queue.add(event);
 
-        multimap.put(agent, event);
+        multimap.put(entity, event);
     }
 
     public void remove(DeterministicEvent event) {
-        Agent agent = event.getAgent();
+        Entity entity = event.getEntity();
 
-        if (!multimap.has(agent, event)) {
-            throw new IllegalStateException("Attempting to remove non-existing agent-event pair from index");
+        if (!multimap.has(entity, event)) {
+            throw new IllegalStateException("Attempting to remove non-existing entity-event pair from index");
         }
 
-        multimap.remove(agent, event);
+        multimap.remove(entity, event);
         queue.remove(event);
     }
 
@@ -55,14 +55,14 @@ public class ScheduleContent {
         return queue.pop();
     }
 
-    public void unlink(Agent agent) {
-        Stream<DeterministicEvent> events = multimap.get(agent);
+    public void unlink(Entity entity) {
+        Stream<DeterministicEvent> events = multimap.get(entity);
         events.forEach(queue::remove);
-        multimap.remove(agent);
+        multimap.remove(entity);
     }
 
-    public void update(Agent agent) {
-        Stream<DeterministicEvent> events = multimap.get(agent);
+    public void update(Entity entity) {
+        Stream<DeterministicEvent> events = multimap.get(entity);
         events.forEach(event -> {
             queue.remove(event);
             queue.add(event);

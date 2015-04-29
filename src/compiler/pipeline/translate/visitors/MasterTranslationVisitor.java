@@ -7,14 +7,13 @@ package compiler.pipeline.translate.visitors;
 
 import compiler.pipeline.interpret.nodes.ASTContainerNode;
 import compiler.pipeline.interpret.nodes.ASTNode;
-import compiler.pipeline.interpret.nodes.ASTPrimitiveDouble;
 import compiler.pipeline.interpret.nodes.ASTPrimitiveNode;
 import compiler.pipeline.translate.helpers.TranslationCallback;
 import compiler.pipeline.translate.nodes.ObjectNode;
 import compiler.symbol.tables.ListSymbolTable;
 import compiler.symbol.tables.MapSymbolTable;
 import compiler.symbol.tables.SymbolTable;
-import compiler.symbol.tables.primitive.PrimitiveSymbolTable; import org.slf4j.Logger;
+import compiler.symbol.tables.runtime.primitive.PrimitiveSymbolTable; import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**

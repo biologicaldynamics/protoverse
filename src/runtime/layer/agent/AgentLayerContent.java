@@ -7,6 +7,7 @@ package runtime.layer.agent;
 
 import runtime.agent.Agent;
 import runtime.topology.coordinate.Coordinate;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.HashMap;
 import java.util.IdentityHashMap;
@@ -20,11 +21,12 @@ public class AgentLayerContent {
 
     private final Map<Coordinate, Agent> coordToAgentMap;
     private final IdentityHashMap<Agent, Coordinate> agentToCoordMap;
+    private final AgentIdIndex agentIdIndex;
 
     public AgentLayerContent(Stream<Coordinate> canonicalSites) {
         coordToAgentMap = new HashMap<>();
         canonicalSites.forEach(c -> coordToAgentMap.put(c, null));
-
+        agentIdIndex = new AgentIdIndex();
         agentToCoordMap = new IdentityHashMap<>();
     }
 
@@ -69,6 +71,14 @@ public class AgentLayerContent {
     }
 
     public Stream<Coordinate> getVacancies() {
-        return null;
+        throw new NotImplementedException();
+    }
+
+    public boolean isVacant() {
+        throw new NotImplementedException();
+    }
+
+    public AgentIdIndex getAgentIdIndex() {
+        return agentIdIndex;
     }
 }

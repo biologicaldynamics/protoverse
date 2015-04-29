@@ -5,9 +5,11 @@
 
 package runtime.process.agent;
 
+import runtime.agent.actions.Action;
+
 /**
  * Created by dbborens on 3/12/15.
  */
-public abstract class AgentProcess implements Runnable{
+public abstract class AgentProcess implements Action {
 
 }

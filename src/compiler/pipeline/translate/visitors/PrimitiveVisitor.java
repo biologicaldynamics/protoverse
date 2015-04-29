@@ -1,13 +1,10 @@
 package compiler.pipeline.translate.visitors;
 
-import compiler.pipeline.interpret.nodes.ASTContainerNode;
-import compiler.pipeline.interpret.nodes.ASTNode;
 import compiler.pipeline.interpret.nodes.ASTPrimitiveNode;
-import compiler.pipeline.translate.helpers.TranslationCallback;
 import compiler.pipeline.translate.nodes.ObjectNode;
-import compiler.pipeline.translate.nodes.PrimitiveNode;
-import compiler.symbol.tables.MapSymbolTable;
-import compiler.symbol.tables.primitive.PrimitiveSymbolTable;
+import compiler.symbol.tables.runtime.primitive.PrimitiveSymbolTable;
+import compiler.symbol.tables.runtime.primitive.doubles.PrimitiveDoubleSymbolTable;
+import compiler.symbol.tables.runtime.primitive.integers.PrimitiveIntegerSymbolTable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,9 +22,13 @@ public class PrimitiveVisitor {
     }
 
     public ObjectNode translate(ASTPrimitiveNode toTranslate, PrimitiveSymbolTable symbolTable) {
-        PrimitiveNode ret =  symbolTable.convert(toTranslate);
-        logger.debug("Translated primitive {} {}",
-                ret.getInstantiatingClass().getSimpleName(), ret.report());
-        return ret;
+        logger.debug("Translating primitive {}", toTranslate.getContent());
+        if (symbolTable instanceof PrimitiveIntegerSymbolTable) {
+            return ((PrimitiveIntegerSymbolTable) symbolTable).getObjectNode(toTranslate);
+        } else if (symbolTable instanceof PrimitiveDoubleSymbolTable) {
+            return ((PrimitiveDoubleSymbolTable) symbolTable).getObjectNode(toTranslate);
+        } else {
+            throw new IllegalStateException("Unrecognized primitive");
+        }
     }
 }

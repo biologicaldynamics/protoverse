@@ -10,7 +10,7 @@ import runtime.util.EpsilonEnabled;
 /**
  * Created by dbborens on 3/9/15.
  */
-public class FixedIntervalTimeRule extends EpsilonEnabled {
+public class PeriodicEventTimer extends EpsilonEnabled implements FixedEventTimer {
 
     private final double start;       // inclusive
     private final double interval;
@@ -20,7 +20,7 @@ public class FixedIntervalTimeRule extends EpsilonEnabled {
 
     // This is messed up. Think about your first, intermediate
     // and last cases, then rewrite.
-    public FixedIntervalTimeRule(double start, double interval, double end) {
+    public PeriodicEventTimer(double start, double interval, double end) {
         if (start < 0 || interval < 0 || end < start) {
             throw new IllegalArgumentException("Malformed time rule");
         }
@@ -31,6 +31,7 @@ public class FixedIntervalTimeRule extends EpsilonEnabled {
         current = -1.0;
     }
 
+    @Override
     public boolean hasNext() {
         if (epsilonEquals(current, -1.0)) {
             return start < end;
@@ -39,6 +40,7 @@ public class FixedIntervalTimeRule extends EpsilonEnabled {
         return current + interval < end;
     }
 
+    @Override
     public double next() {
         if (!hasNext()) {
             throw new IllegalStateException("Time rule advanced past last interval");

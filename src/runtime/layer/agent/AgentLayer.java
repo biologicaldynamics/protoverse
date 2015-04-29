@@ -9,6 +9,7 @@ import runtime.agent.Agent;
 import runtime.topology.Topology;
 import runtime.topology.coordinate.Coordinate;
 
+import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 /**
@@ -29,8 +30,10 @@ public class AgentLayer {
         this.swapHelper = swapHelper;
     }
 
-    public AgentLayer(AgentLayerContent content, Topology topology) {
-        this(content, topology, new AgentSwapHelper(content));
+    public AgentLayer(Topology topology) {
+        this.topology = topology;
+        this.content = new AgentLayerContent(topology.getCanonicalSites());
+        this.swapHelper = new AgentSwapHelper(content);
     }
 
     public Coordinate locate(Agent agent) {
@@ -41,11 +44,27 @@ public class AgentLayer {
         return topology;
     }
 
+    public void put(Agent agent, Coordinate coordinate) {
+        content.put(agent, coordinate);
+    }
+
+    public void remove(Agent agent) {
+        content.remove(agent);
+    }
+
     public void swap(Coordinate p, Coordinate q) {
         swapHelper.swap(p, q);
     }
 
     public Stream<Coordinate> getVacancies() {
         return content.getVacancies();
+    }
+
+    public AgentIdIndex getAgentIdIndex() {
+        return content.getAgentIdIndex();
+    }
+
+    public boolean isVacant(Coordinate location) {
+        return content.isVacant();
     }
 }

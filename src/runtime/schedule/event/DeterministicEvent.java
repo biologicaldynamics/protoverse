@@ -5,36 +5,39 @@
 
 package runtime.schedule.event;
 
-import runtime.agent.Agent;
 import runtime.agent.actions.Action;
-import runtime.agent.actions.time.FixedIntervalTimeRule;
+import runtime.agent.actions.time.FixedEventTimer;
+import runtime.agent.actions.time.PeriodicEventTimer;
+import runtime.control.Entity;
 
 /**
  * Created by dbborens on 3/8/15.
  */
-public class DeterministicEvent implements Event, Comparable<DeterministicEvent> {
+public class DeterministicEvent extends Event {
 
     private double time;
-    private FixedIntervalTimeRule timeRule;
-    private Agent agent;
+    private FixedEventTimer timer;
+    private Entity entity;
     private Action action;
     private boolean ready;
 
-    public DeterministicEvent(Agent agent, Action action, FixedIntervalTimeRule timeRule) {
-        this.agent = agent;
+    public DeterministicEvent(Entity entity, Action action, FixedEventTimer timer) {
+        this.entity = entity;
         this.action = action;
-        this.timeRule = timeRule;
+        this.timer = timer;
         advance();
     }
 
     private void advance() {
-        ready = timeRule.hasNext();
+        ready = timer.hasNext();
         if (ready) {
-            time = timeRule.next();
+            time = timer.next();
         }
     }
-    public Agent getAgent() {
-        return agent;
+
+    @Override
+    public Entity getEntity() {
+        return entity;
     }
 
     @Override
@@ -54,7 +57,7 @@ public class DeterministicEvent implements Event, Comparable<DeterministicEvent>
     }
 
     @Override
-    public int compareTo(DeterministicEvent o) {
-        return Double.compare(this.getNextTime(), o.getNextTime());
+    public String toString() {
+        return action.getClass().getSimpleName() + " @ t=" + getNextTime();
     }
 }

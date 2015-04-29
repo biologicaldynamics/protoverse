@@ -5,6 +5,8 @@
 
 package runtime.topology.shape;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import runtime.topology.coordinate.Coordinate2D;
 import runtime.topology.lattice.Lattice;
 
@@ -20,9 +22,11 @@ public class Rectangle extends Shape<Coordinate2D> {
 
     private final int height, width;
     private final Set<Coordinate2D> canonicalSites;
-
+    private Logger logger;
     public Rectangle(Lattice<Coordinate2D> lattice, int width, int height) {
         super(lattice);
+        logger = LoggerFactory.getLogger(Rectangle.class);
+        logger.debug("Constructing new {}x{} Rectangle.", width, height);
         this.height = height;
         this.width = width;
         canonicalSites = calcCanonicalSites();

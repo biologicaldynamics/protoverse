@@ -33,7 +33,7 @@ public class MapObjectNode implements ObjectNode {
         this.local = local;
     }
 
-    public void loadMember(String identifier, Resolvable value) {
+    public void loadMember(String identifier, ObjectNode value) {
         local.loadMember(identifier, value);
     }
 
@@ -41,7 +41,7 @@ public class MapObjectNode implements ObjectNode {
         return local.getMemberIdentifiers();
     }
 
-    public Resolvable getMember(String identifier) {
+    public ObjectNode getMember(String identifier) {
         return local.getMember(identifier);
     }
 

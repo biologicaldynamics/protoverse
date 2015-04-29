@@ -3,7 +3,7 @@
  * Trustees of Princeton University. All rights reserved.
  */
 
-package compiler.symbol.tables.primitive;
+package compiler.symbol.tables.runtime.primitive.integers;
 
 import compiler.pipeline.interpret.nodes.ASTPrimitiveInteger;
 import compiler.symbol.symbols.ClassSymbol;

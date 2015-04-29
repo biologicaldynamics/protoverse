@@ -1,13 +1,17 @@
 package compiler.symbol.tables.runtime.topology;
 
 import compiler.pipeline.translate.nodes.MapObjectNode;
+import compiler.pipeline.translate.nodes.ObjectNode;
 import compiler.symbol.symbols.MemberSymbol;
 import compiler.symbol.tables.ClassSymbolTable;
+import compiler.symbol.tables.InstantiableSymbolTable;
 import compiler.symbol.tables.MapSymbolTable;
 import compiler.symbol.tables.runtime.topology.boundary.BoundaryClassSymbolTable;
+import compiler.symbol.tables.runtime.topology.boundary.BoundaryInstanceSymbolTable;
 import compiler.symbol.tables.runtime.topology.lattice.LatticeClassSymbolTable;
 import compiler.symbol.tables.runtime.topology.lattice.LatticeInstanceSymbolTable;
 import compiler.symbol.tables.runtime.topology.shape.ShapeClassSymbolTable;
+import compiler.symbol.tables.runtime.topology.shape.ShapeInstanceSymbolTable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import runtime.topology.Topology;
@@ -63,20 +67,26 @@ public class TopologyInstanceSymbolTable extends MapSymbolTable<Topology> {
 
         Shape shape = getShape(node, lattice);
 
-        AgentBoundary boundary = getBoundary(node, shape, lattice);
+        AgentBoundary boundary = getBoundary(node, shape);
 
         Topology topology = new Topology(boundary);
+
         return topology;
     }
 
     /** Instantiate boundary. */
-    private AgentBoundary getBoundary(MapObjectNode node, Shape shape, Lattice lattice) {
-        return null;
+    private AgentBoundary getBoundary(MapObjectNode node, Shape shape) {
+        MapObjectNode boundaryNode = (MapObjectNode) node.getMember("boundary");
+        BoundaryInstanceSymbolTable boundaryST = (BoundaryInstanceSymbolTable) boundaryNode.getSymbolTable();
+        return boundaryST.instantiate(shape);
     }
 
     /** Instantiate shape. */
     private Shape getShape(MapObjectNode node, Lattice lattice) {
-        return null;
+        ObjectNode shapeNode = node.getMember("shape");
+        ShapeInstanceSymbolTable shapeST = (ShapeInstanceSymbolTable) shapeNode.getSymbolTable();
+        Shape shape = shapeST.instantiate(shapeNode, lattice);
+        return shape;
     }
 
     /** Instantiate lattice. */

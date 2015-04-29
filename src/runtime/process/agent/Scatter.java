@@ -5,7 +5,7 @@
 
 package runtime.process.agent;
 
-import runtime.agent.AgentEstablisher;
+import runtime.agent.AgentDescriptor;
 import runtime.topology.coordinate.Coordinate;
 import runtime.util.RandomChooser;
 
@@ -20,7 +20,7 @@ import java.util.stream.Stream;
  */
 public class Scatter extends AgentProcess {
 
-    private AgentEstablisher establisher;
+    private AgentDescriptor establisher;
     private Supplier<Stream<Coordinate>> siteSupplier;
     private RandomChooser<Coordinate> chooser;
     private Supplier<Integer> count;
@@ -39,7 +39,7 @@ public class Scatter extends AgentProcess {
      * @param count Supplier of number of agents to scatter.
      *              (Can be different each time.)
      */
-    public Scatter(AgentEstablisher establisher,
+    public Scatter(AgentDescriptor establisher,
                    Supplier<Stream<Coordinate>> siteSupplier,
                    RandomChooser<Coordinate> chooser,
                    Supplier<Integer> count) {

@@ -6,22 +6,30 @@
 package runtime.schedule.event;
 
 import runtime.agent.Agent;
+import runtime.control.Entity;
 
 /**
  * Created by dbborens on 3/8/15.
  */
-public interface Event {
+public abstract class Event implements Comparable<Event> {
 
     /**
-     * Report the agent associated with this object.
+     * Report the entity that owns this event.
      * @return
      */
-    public Agent getAgent();
+    public abstract Entity getEntity();
 
     /**
      * Run the event represented by this object.
      *
      * @return whether this event can ever happen again.
      */
-    public boolean run();
+    public abstract boolean run();
+
+    public abstract double getNextTime();
+
+    @Override
+    public int compareTo(Event o) {
+        return Double.compare(this.getNextTime(), o.getNextTime());
+    }
 }

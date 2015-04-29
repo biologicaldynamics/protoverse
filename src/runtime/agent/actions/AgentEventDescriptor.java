@@ -6,7 +6,9 @@
 package runtime.agent.actions;
 
 import runtime.agent.Agent;
-import runtime.agent.actions.time.FixedIntervalTimeRule;
+import runtime.agent.AgentDescriptor;
+import runtime.agent.actions.time.FixedEventTimer;
+import runtime.agent.actions.time.PeriodicEventTimer;
 import runtime.schedule.event.DeterministicEvent;
 
 import java.util.function.Function;
@@ -15,13 +17,13 @@ import java.util.function.Supplier;
 /**
  * Created by dbborens on 3/12/15.
  */
-public class AgentEventProducer implements Function<Agent, DeterministicEvent> {
+public class AgentEventDescriptor implements Function<Agent, DeterministicEvent> {
 
-    private Function<Agent, Action> actionProducer;
-    private Supplier<FixedIntervalTimeRule> timeRuleSupplier;
+    private ActionDescriptor actionProducer;
+    private Supplier<FixedEventTimer> timeRuleSupplier;
 
-    public AgentEventProducer(Function<Agent, Action> actionProducer,
-                              Supplier<FixedIntervalTimeRule> timeRuleSupplier) {
+    public AgentEventDescriptor(ActionDescriptor actionProducer,
+                                Supplier<FixedEventTimer> timeRuleSupplier) {
 
         this.actionProducer = actionProducer;
         this.timeRuleSupplier = timeRuleSupplier;
@@ -29,7 +31,7 @@ public class AgentEventProducer implements Function<Agent, DeterministicEvent> {
 
     @Override
     public DeterministicEvent apply(Agent agent) {
-        FixedIntervalTimeRule timeRule = timeRuleSupplier.get();
+        FixedEventTimer timeRule = timeRuleSupplier.get();
         Action action = actionProducer.apply(agent);
         DeterministicEvent event = new DeterministicEvent(agent, action, timeRule);
         return event;

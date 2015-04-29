@@ -5,6 +5,8 @@
 
 package runtime.agent.actions;
 
+import runtime.agent.Agent;
+import runtime.layer.agent.AgentLayer;
 import runtime.topology.coordinate.Coordinate;
 import runtime.util.RandomChooser;
 
@@ -24,22 +26,26 @@ public class Wander implements Action {
     /**
      * @param chooser A function that chooses a random coordinate from a stream
      *                of coordinates.
-     *
-     * @param candidateSupplier Supplies the neighborhood into which the agent
-     *                          may wander. It is assumed that the neighborhood
-     *                          is compatible with the mover.
-     *
-     * @param mover Moves the agent associated with this action to the specified
-     *              coordinate. It is assumed that the mover is capable of
-     *              moving the agent to any coordinate that might be supplied.
      */
     public Wander(RandomChooser<Coordinate> chooser,
-                  Supplier<Stream<Coordinate>> candidateSupplier,
-                  Consumer<Coordinate> mover) {
+                  Agent agent,
+                  AgentLayer layer) {
+
+        candidateSupplier = () -> {
+            Coordinate location = layer.locate(agent);
+            Stream<Coordinate> stream = layer
+                    .getTopology()
+                    .getNeighbors(location)
+                    .filter(coord -> layer.isVacant((Coordinate) coord));
+            return stream;
+        };
+
+        mover = destination -> {
+            Coordinate location = layer.locate(agent);
+            layer.swap(location, destination);
+        };
 
         this.chooser = chooser;
-        this.candidateSupplier = candidateSupplier;
-        this.mover = mover;
     }
 
     @Override

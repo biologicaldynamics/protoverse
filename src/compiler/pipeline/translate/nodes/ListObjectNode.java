@@ -46,7 +46,7 @@ public class ListObjectNode implements ObjectNode {
         return local.size();
     }
 
-    public ResolvingSymbolTable getSymbolTable() {
+    public ListSymbolTable getSymbolTable() {
         return symbolTable;
     }
 

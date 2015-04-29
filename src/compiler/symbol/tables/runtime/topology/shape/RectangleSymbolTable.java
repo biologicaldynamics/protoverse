@@ -1,15 +1,16 @@
 package compiler.symbol.tables.runtime.topology.shape;
 
 import compiler.pipeline.translate.nodes.MapObjectNode;
+import compiler.pipeline.translate.nodes.ObjectNode;
+import compiler.pipeline.translate.nodes.PrimitiveIntegerNode;
 import compiler.symbol.symbols.MemberSymbol;
-import compiler.symbol.tables.MapSymbolTable;
-import compiler.symbol.tables.primitive.IntegerClassSymbolTable;
-import compiler.symbol.tables.primitive.PrimitiveSymbolTable;
+import compiler.symbol.tables.runtime.primitive.integers.IntegerClassSymbolTable;
+import compiler.symbol.tables.runtime.primitive.integers.IntegerInstanceSymbolTable;
 import runtime.topology.lattice.Lattice;
 import runtime.topology.shape.Rectangle;
-import runtime.topology.shape.Shape;
 
 import java.util.HashMap;
+import java.util.function.Supplier;
 
 /**
  * Created by dbborens on 4/23/15.
@@ -36,8 +37,10 @@ public class RectangleSymbolTable extends ShapeInstanceSymbolTable {
     }
 
     @Override
-    public Rectangle instantiate(MapObjectNode node, Lattice lattice) {
-
-        return null;
+    public Rectangle instantiate(ObjectNode node, Lattice lattice) {
+        Integer width = intProperty(node, "width").get();
+        Integer height = intProperty(node, "height").get();
+        return new Rectangle(lattice, width, height);
     }
+
 }

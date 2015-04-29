@@ -5,14 +5,18 @@
 
 package compiler.pipeline.translate.nodes;
 
+import compiler.symbol.tables.InstantiableSymbolTable;
+
 /**
  * Created by dbborens on 2/22/15.
  */
-public interface ObjectNode extends Resolvable {
+public interface ObjectNode {
 
     /**
      * Reports the class of the object that will be instantiated by this class.
      * @return
      */
     public Class getInstantiatingClass();
+
+    public InstantiableSymbolTable getSymbolTable();
 }

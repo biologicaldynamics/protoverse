@@ -15,7 +15,7 @@ import java.util.stream.Stream;
  * Created by dbborens on 2/22/15.
  */
 public class LocalContextMap {
-    private Map<String, Resolvable> members;
+    private Map<String, ObjectNode> members;
 
     public LocalContextMap() {
         members = new HashMap<>();
@@ -25,7 +25,7 @@ public class LocalContextMap {
         return members.keySet().stream();
     }
 
-    public Resolvable getMember(String name) {
+    public ObjectNode getMember(String name) {
         if (!members.containsKey(name)) {
             throw new IllegalStateException("Retrieval of undefined member '" + name + "'");
         }
@@ -33,7 +33,7 @@ public class LocalContextMap {
         return members.get(name);
     }
 
-    public void loadMember(String identifier, Resolvable value) {
+    public void loadMember(String identifier, ObjectNode value) {
         if (members.containsKey(identifier)) {
             throw new IllegalAssignmentError("Double assignment to member '" + identifier + "'");
         }

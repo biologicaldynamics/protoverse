@@ -5,6 +5,8 @@
 
 package runtime.topology.boundary;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import runtime.agent.Agent;
 import runtime.topology.coordinate.Coordinate2D;
 import runtime.topology.shape.Shape;
@@ -17,10 +19,13 @@ import java.util.stream.Stream;
  */
 public class AbsorbingAgentBoundary2D extends AgentBoundary<Coordinate2D> {
 
-    private static final Coordinate2D zero = new Coordinate2D(0, 0);
+//    private static final Coordinate2D zero = new Coordinate2D(0, 0);
+    private final Logger logger;
 
     public AbsorbingAgentBoundary2D(Shape<Coordinate2D> shape) {
         super(shape);
+        logger = LoggerFactory.getLogger(AbsorbingAgentBoundary2D.class);
+        logger.debug("Constructing new AbsorbingAgentBoundary2D.");
     }
 
 

@@ -5,6 +5,7 @@
 
 package runtime.agent;
 
+import runtime.control.Entity;
 import runtime.topology.coordinate.Coordinate;
 
 import java.util.function.Supplier;
@@ -12,7 +13,7 @@ import java.util.function.Supplier;
 /**
  * Created by dbborens on 3/5/15.
  */
-public class Agent {
+public class Agent implements Entity {
 
     private final int id;
 //    private final Supplier<String> layerResolver;

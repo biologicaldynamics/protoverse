@@ -41,6 +41,10 @@ public class NanoverseCompiler {
         MapObjectNode objRoot = (MapObjectNode) visitor.translate(astRoot, rootMST);
 
         SimulationSymbolTable rootST = (SimulationSymbolTable) objRoot.getSymbolTable();
+        logger.info("Instantiating simulation.");
         Simulation simulation = rootST.instantiate(objRoot);
+
+        logger.info("Running simulation.");
+        simulation.run();
     }
 }

@@ -11,13 +11,13 @@ import java.util.function.Function;
 /**
  * Created by dbborens on 3/12/15.
  */
-public class AgentDeathSupplier implements Function<Agent, Runnable> {
+public class AgentDeathMaker implements Function<Agent, Runnable> {
 
     private Consumer<Agent> layerAgentRemover;
     private Consumer<Agent> scheduleAgentRemover;
 
-    public AgentDeathSupplier(Consumer<Agent> layerAgentRemover,
-                              Consumer<Agent> scheduleAgentRemover) {
+    public AgentDeathMaker(Consumer<Agent> layerAgentRemover,
+                           Consumer<Agent> scheduleAgentRemover) {
 
         this.layerAgentRemover = layerAgentRemover;
         this.scheduleAgentRemover = scheduleAgentRemover;

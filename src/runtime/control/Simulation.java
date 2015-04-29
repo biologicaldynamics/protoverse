@@ -5,28 +5,31 @@
 
 package runtime.control;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import runtime.schedule.EventSchedule;
+import runtime.util.Global;
 import runtime.util.halt.HaltCondition;
 
 /**
  * Created by dbborens on 3/11/15.
  */
-public class Simulation implements Runnable {
+public class Simulation implements Runnable, Entity {
    
-    private EventSchedule schedule;
-
+    private final EventSchedule schedule;
+    private final Logger logger;
     public Simulation(EventSchedule schedule) {
         this.schedule = schedule;
+        logger = LoggerFactory.getLogger(Simulation.class);
     }
 
     @Override
     public void run() {
+        logger.debug("Beginning simulation runtime.");
         try {
             while(true) { schedule.advance(); }
         } catch (HaltCondition ex) {
-            System.out.println("Simulation complete: " + ex);
-            System.err.println("This should now hand control to a 'finally()' handler for resolving output, etc.");
-            System.err.println("Messages should be handled by a mockable logger like log4j.");
+            logger.info("Simulation complete: {}", ex.toString());
         }
     }
 
