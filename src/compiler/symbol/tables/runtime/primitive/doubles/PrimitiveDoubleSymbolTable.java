@@ -1,6 +1,6 @@
 /*
- * Copyright (c) 2015 David Bruce Borenstein and the
- * Trustees of Princeton University. All rights reserved.
+ * Copyright (c) 2015 David Bruce Borenstein and the Trustees
+ * of Princeton University. All rights reserved.
  */
 
 package compiler.symbol.tables.runtime.primitive.doubles;
@@ -19,11 +19,10 @@ import java.util.function.Supplier;
 /**
  * Created by dbborens on 3/5/15.
  */
-public class PrimitiveDoubleSymbolTable extends PrimitiveSymbolTable<Double> {
+public class PrimitiveDoubleSymbolTable extends PrimitiveSymbolTable<Double> implements DoubleInstanceSymbolTable {
 
     @Override
     public PrimitiveObjectNode<Double> getObjectNode(ASTPrimitiveNode<Double> astNode) {
         return new PrimitiveDoubleNode(this, astNode.getContent());
     }
-
 }

@@ -1,6 +1,6 @@
 /*
- * Copyright (c) 2015 David Bruce Borenstein and the
- * Trustees of Princeton University. All rights reserved.
+ * Copyright (c) 2015 David Bruce Borenstein and the Trustees
+ * of Princeton University. All rights reserved.
  */
 
 package compiler.symbol.tables;
@@ -49,14 +49,14 @@ public abstract class MapSymbolTable<T> implements InstantiableSymbolTable {
         return type.getRawType();
     }
 
-    protected static Supplier<Integer> intProperty(ObjectNode node, String property) {
+    protected Supplier<Integer> intProperty(ObjectNode node, String property) {
         ObjectNode child = ((MapObjectNode) node).getMember(property);
         IntegerInstanceSymbolTable symbolTable = (IntegerInstanceSymbolTable) child.getSymbolTable();
         Supplier<Integer> supplier = symbolTable.instantiate(child);
         return supplier;
     }
 
-    protected static Supplier<Double> doubleProperty(ObjectNode node, String property) {
+    protected Supplier<Double> doubleProperty(ObjectNode node, String property) {
         ObjectNode child = ((MapObjectNode) node).getMember(property);
         DoubleInstanceSymbolTable symbolTable = (DoubleInstanceSymbolTable) child.getSymbolTable();
         Supplier<Double> supplier = symbolTable.instantiate(child);

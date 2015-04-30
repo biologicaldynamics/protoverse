@@ -1,6 +1,6 @@
 /*
- * Copyright (c) 2015 David Bruce Borenstein and the
- * Trustees of Princeton University. All rights reserved.
+ * Copyright (c) 2015 David Bruce Borenstein and the Trustees
+ * of Princeton University. All rights reserved.
  */
 
 package compiler;
@@ -24,27 +24,31 @@ import java.io.File;
 public class NanoverseCompiler {
 
     private final Logger logger;
+    private final Interpreter interpreter;
+    private final MasterTranslationVisitor visitor;
 
     public NanoverseCompiler() {
+        this(new Interpreter(), new MasterTranslationVisitor());
+    }
+
+    public NanoverseCompiler(Interpreter interpreter, MasterTranslationVisitor visitor) {
+        this.interpreter = interpreter;
+        this.visitor = visitor;
         logger = LoggerFactory.getLogger(NanoverseCompiler.class);
     }
-    // TODO the compiler really should return a runner object.
-    public void compile(File source) {
-        Interpreter interpreter = new Interpreter();
+
+    public Simulation compile(File source) {
         ASTNode astRoot = interpreter.interpret(source);
 
         StringBuilder sb = new StringBuilder();
         astRoot.append(sb, 0);
         logger.debug("Abstract syntax tree is reported below\n" + sb.toString());
-        MasterTranslationVisitor visitor = new MasterTranslationVisitor();
         SymbolTable rootMST = new SimulationSymbolTable();
         MapObjectNode objRoot = (MapObjectNode) visitor.translate(astRoot, rootMST);
 
         SimulationSymbolTable rootST = (SimulationSymbolTable) objRoot.getSymbolTable();
         logger.info("Instantiating simulation.");
         Simulation simulation = rootST.instantiate(objRoot);
-
-        logger.info("Running simulation.");
-        simulation.run();
+        return simulation;
     }
 }

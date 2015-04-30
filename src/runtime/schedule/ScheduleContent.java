@@ -1,6 +1,6 @@
 /*
- * Copyright (c) 2015 David Bruce Borenstein and the
- * Trustees of Princeton University. All rights reserved.
+ * Copyright (c) 2015 David Bruce Borenstein and the Trustees
+ * of Princeton University. All rights reserved.
  */
 
 package runtime.schedule;
@@ -52,7 +52,12 @@ public class ScheduleContent {
     }
 
     public EventBlock next() {
-        return queue.pop();
+        EventBlock block = queue.pop();
+        block.get().forEach(event -> {
+            Entity entity = event.getEntity();
+            multimap.remove(entity, event);
+        });
+        return block;
     }
 
     public void unlink(Entity entity) {

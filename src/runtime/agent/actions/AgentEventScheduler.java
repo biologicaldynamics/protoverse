@@ -1,6 +1,6 @@
 /*
- * Copyright (c) 2015 David Bruce Borenstein and the
- * Trustees of Princeton University. All rights reserved.
+ * Copyright (c) 2015 David Bruce Borenstein and the Trustees
+ * of Princeton University. All rights reserved.
  */
 
 package runtime.agent.actions;
@@ -32,7 +32,7 @@ public class AgentEventScheduler implements Consumer<Agent> {
     public void accept(Agent agent) {
         // Build and schedule the agent's events
         eventSet.stream()
-                .map(producer -> producer.apply(agent))
+                .map(descriptor -> descriptor.apply(agent))
                 .forEach(schedule::schedule);
     }
 

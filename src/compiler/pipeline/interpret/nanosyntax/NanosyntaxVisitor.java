@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2015 David Bruce Borenstein and the Trustees
+ * of Princeton University. All rights reserved.
+ */
+
 // Generated from /home/dbborens/IdeaProjects/protoverse/src/Nanosyntax.g4 by ANTLR 4.5
 package compiler.pipeline.interpret.nanosyntax;
 import org.antlr.v4.runtime.misc.NotNull;

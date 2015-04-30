@@ -1,6 +1,6 @@
 /*
- * Copyright (c) 2015 David Bruce Borenstein and the
- * Trustees of Princeton University. All rights reserved.
+ * Copyright (c) 2015 David Bruce Borenstein and the Trustees
+ * of Princeton University. All rights reserved.
  */
 
 package runtime.layer.agent;
@@ -65,6 +65,6 @@ public class AgentLayer {
     }
 
     public boolean isVacant(Coordinate location) {
-        return content.isVacant();
+        return content.isVacant(location);
     }
 }

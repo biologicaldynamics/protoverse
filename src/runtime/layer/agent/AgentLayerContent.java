@@ -1,6 +1,6 @@
 /*
- * Copyright (c) 2015 David Bruce Borenstein and the
- * Trustees of Princeton University. All rights reserved.
+ * Copyright (c) 2015 David Bruce Borenstein and the Trustees
+ * of Princeton University. All rights reserved.
  */
 
 package runtime.layer.agent;
@@ -49,6 +49,11 @@ public class AgentLayerContent {
     }
 
     public Agent get(Coordinate coordinate) {
+        /*
+         * Coordinate retrieval needs to be handled by a helper object that manages
+         * boundary conditions. Then you need to have a boundary condition resolution step that
+         * happens at the end of every event block.
+         */
         if (!coordToAgentMap.containsKey(coordinate)) {
             throw new IllegalArgumentException("Attempting to access contents of non-canonical coordinate");
         }
@@ -71,11 +76,14 @@ public class AgentLayerContent {
     }
 
     public Stream<Coordinate> getVacancies() {
-        throw new NotImplementedException();
+        return coordToAgentMap
+                .keySet()
+                .stream()
+                .filter(coordinate -> isVacant(coordinate));
     }
 
-    public boolean isVacant() {
-        throw new NotImplementedException();
+    public boolean isVacant(Coordinate coordinate) {
+        return coordToAgentMap.get(coordinate) == null;
     }
 
     public AgentIdIndex getAgentIdIndex() {

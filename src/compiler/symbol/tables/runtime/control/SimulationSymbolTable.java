@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2015 David Bruce Borenstein and the Trustees
+ * of Princeton University. All rights reserved.
+ */
+
 package compiler.symbol.tables.runtime.control;
 
 import compiler.pipeline.translate.nodes.ListObjectNode;
@@ -78,6 +83,7 @@ public class SimulationSymbolTable extends MapSymbolTable<Simulation> {
         initially.getMemberStream().forEach(childNode -> {
             DeterministicEvent event = makeProcess(childNode, simulation, global, agentLayer, schedule);
             logger.debug("Scheduling event {}.", event.toString());
+            schedule.schedule(event);
         });
 
         // Return the simulation.

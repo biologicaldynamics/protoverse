@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2015 David Bruce Borenstein and the Trustees
+ * of Princeton University. All rights reserved.
+ */
+
 package compiler.pipeline.translate.visitors;
 
 import compiler.pipeline.interpret.nodes.ASTContainerNode;
