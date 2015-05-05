@@ -12,7 +12,7 @@ import java.util.stream.Stream;
  */
 public interface ASTNode {
 
-    public void append(StringBuilder builder, int indentLevel);
+    public void astReport(StringBuilder builder, int indentLevel);
     public String getIdentifier();
     public int size();
     public Stream<ASTNode> getChildren();

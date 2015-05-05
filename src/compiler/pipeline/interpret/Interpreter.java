@@ -29,8 +29,8 @@ public class Interpreter {
     }
 
     public ASTNode interpret(File file) {
-        logger.info("Interpreting {}", file.getAbsoluteFile());
         verify(file);
+        logger.info("Interpreting {}", file.getAbsoluteFile());
         return antlr.interpret(file);
     }
 

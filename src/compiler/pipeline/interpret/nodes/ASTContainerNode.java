@@ -41,13 +41,14 @@ import java.util.stream.Stream;
 
         ASTContainerNode blockNode = (ASTContainerNode) o;
 
+        if (!identifier.equals(blockNode.identifier)) return false;
         if (!children.equals(blockNode.children)) return false;
 
         return true;
     }
 
     @Override
-    public void append(StringBuilder builder, int indentLevel) {
+    public void astReport(StringBuilder builder, int indentLevel) {
         builder.append(Strings.repeat(" ", indentLevel));
         builder.append("container: " + identifier + "(" + size() + ")\n");
         if (children == null) {
@@ -58,7 +59,7 @@ import java.util.stream.Stream;
                             if (child == null) {
                                 throw new IllegalStateException("Container " + identifier + " has a null child");
                             }
-                            child.append(builder, indentLevel + 1);
+                            child.astReport(builder, indentLevel + 1);
                         });
     }
 }

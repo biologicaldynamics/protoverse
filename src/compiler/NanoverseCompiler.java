@@ -8,7 +8,6 @@ package compiler;
 import compiler.pipeline.interpret.Interpreter;
 import compiler.pipeline.interpret.nodes.ASTNode;
 import compiler.pipeline.translate.nodes.MapObjectNode;
-import compiler.pipeline.translate.nodes.ObjectNode;
 import compiler.pipeline.translate.visitors.MasterTranslationVisitor;
 import compiler.symbol.tables.SymbolTable;
 import compiler.symbol.tables.runtime.control.SimulationSymbolTable;
@@ -41,7 +40,7 @@ public class NanoverseCompiler {
         ASTNode astRoot = interpreter.interpret(source);
 
         StringBuilder sb = new StringBuilder();
-        astRoot.append(sb, 0);
+        astRoot.astReport(sb, 0);
         logger.debug("Abstract syntax tree is reported below\n" + sb.toString());
         SymbolTable rootMST = new SimulationSymbolTable();
         MapObjectNode objRoot = (MapObjectNode) visitor.translate(astRoot, rootMST);

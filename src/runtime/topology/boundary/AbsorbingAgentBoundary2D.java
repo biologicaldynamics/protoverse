@@ -48,4 +48,9 @@ public class AbsorbingAgentBoundary2D extends AgentBoundary<Coordinate2D> {
         return agent -> agent.die();
     }
 
+    @Override
+    public Coordinate2D canonicalize(Coordinate2D input) {
+        return input.asOverbounds();
+    }
+
 }

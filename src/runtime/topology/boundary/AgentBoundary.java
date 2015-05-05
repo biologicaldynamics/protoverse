@@ -50,4 +50,6 @@ public abstract class AgentBoundary<C extends Coordinate> {
      *
      */
     public abstract Consumer<Agent> getOverboundsConsumer();
+
+    public abstract C canonicalize(C input);
 }

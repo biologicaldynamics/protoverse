@@ -19,7 +19,7 @@ public class ASTPrimitiveString extends ASTPrimitiveNode<String> {
         super(content);
     }
     @Override
-    public void append(StringBuilder builder, int indentLevel) {
+    public void astReport(StringBuilder builder, int indentLevel) {
         builder.append(Strings.repeat(" ", indentLevel));
         builder.append("string: " + getContent() + "\n");
     }

@@ -19,7 +19,7 @@ public class ASTPrimitiveInteger extends ASTPrimitiveNode<Integer> {
     }
 
     @Override
-    public void append(StringBuilder builder, int indentLevel) {
+    public void astReport(StringBuilder builder, int indentLevel) {
         builder.append(Strings.repeat(" ", indentLevel));
         builder.append("integer: " + getContent() + "\n");
     }

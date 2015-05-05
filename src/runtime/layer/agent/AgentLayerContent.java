@@ -6,12 +6,11 @@
 package runtime.layer.agent;
 
 import runtime.agent.Agent;
+import runtime.topology.Topology;
 import runtime.topology.coordinate.Coordinate;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
-import java.util.HashMap;
-import java.util.IdentityHashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Stream;
 
 /**
@@ -22,17 +21,24 @@ public class AgentLayerContent {
     private final Map<Coordinate, Agent> coordToAgentMap;
     private final IdentityHashMap<Agent, Coordinate> agentToCoordMap;
     private final AgentIdIndex agentIdIndex;
+    private final Topology topology;
+    private final Map<Coordinate, Agent> outOfBounds;
 
-    public AgentLayerContent(Stream<Coordinate> canonicalSites) {
+    public AgentLayerContent(Topology topology) {
+        this.topology = topology;
         coordToAgentMap = new HashMap<>();
-        canonicalSites.forEach(c -> coordToAgentMap.put(c, null));
+        topology.getCanonicalSites()
+                .forEach(c -> coordToAgentMap
+                        .put((Coordinate) c, null));
         agentIdIndex = new AgentIdIndex();
         agentToCoordMap = new IdentityHashMap<>();
+        outOfBounds = new HashSet<>();
     }
 
     public void put(Agent agent, Coordinate coordinate) {
         if (!coordToAgentMap.containsKey(coordinate)) {
-            throw new IllegalArgumentException("Attempting placement to non-canonical coordinate");
+            throw new IllegalArgumentException("Attempting placement to " +
+                    "non-canonical coordinate");
         }
 
 
@@ -49,15 +55,11 @@ public class AgentLayerContent {
     }
 
     public Agent get(Coordinate coordinate) {
-        /*
-         * Coordinate retrieval needs to be handled by a helper object that manages
-         * boundary conditions. Then you need to have a boundary condition resolution step that
-         * happens at the end of every event block.
-         */
-        if (!coordToAgentMap.containsKey(coordinate)) {
-            throw new IllegalArgumentException("Attempting to access contents of non-canonical coordinate");
+        if (coordToAgentMap.containsKey(coordinate)) {
+            return coordToAgentMap.get(coordinate);
         }
 
+        // Now handle out of bounds case
         return coordToAgentMap.get(coordinate);
     }
 

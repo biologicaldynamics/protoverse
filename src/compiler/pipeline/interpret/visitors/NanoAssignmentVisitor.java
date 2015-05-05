@@ -34,6 +34,14 @@ public class NanoAssignmentVisitor extends AbstractNanoNodeVisitor {
         this.blockVisitor = blockVisitor;
     }
 
+    public NanoAssignmentVisitor(NanoSingletonVisitor singletonVisitor,
+                                 NanoBlockVisitor blockVisitor) {
+
+        logger = LoggerFactory.getLogger(NanoAssignmentVisitor.class);
+        this.singletonVisitor = singletonVisitor;
+        this.blockVisitor = blockVisitor;
+    }
+
     @Override
     public ASTNode visitAssignment(@NotNull AssignmentContext ctx) {
         logger.debug("Visiting assignment: {}", ctx.getText());

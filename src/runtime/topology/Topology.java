@@ -7,9 +7,11 @@ package runtime.topology;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import runtime.agent.Agent;
 import runtime.topology.boundary.AgentBoundary;
 import runtime.topology.coordinate.Coordinate;
 
+import java.util.function.Consumer;
 import java.util.stream.Stream;
 
 /**
@@ -17,7 +19,7 @@ import java.util.stream.Stream;
  */
 public class Topology<C extends Coordinate> {
 
-    private final AgentBoundary boundary;
+    private final AgentBoundary<C> boundary;
     private final Logger logger;
 
     public Topology(AgentBoundary boundary) {
@@ -33,5 +35,13 @@ public class Topology<C extends Coordinate> {
 
     public Stream<C> getNeighbors(C c) {
         return boundary.getNeighbors(c);
+    }
+
+    public C canonicalize(C input) {
+        return boundary.canonicalize(input);
+    }
+
+    public Consumer<Agent> getOverboundsConsumer() {
+        return boundary.getOverboundsConsumer();
     }
 }

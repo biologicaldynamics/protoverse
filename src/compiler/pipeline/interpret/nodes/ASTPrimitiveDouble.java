@@ -17,7 +17,7 @@ public class ASTPrimitiveDouble extends ASTPrimitiveNode<Double> {
     }
 
     @Override
-    public void append(StringBuilder builder, int indentLevel) {
+    public void astReport(StringBuilder builder, int indentLevel) {
         builder.append(Strings.repeat(" ", indentLevel));
         builder.append("double: " + getContent() + "\n");
     }
