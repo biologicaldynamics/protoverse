@@ -19,7 +19,6 @@ import java.util.stream.Stream;
  */
 public class AbsorbingAgentBoundary2D extends AgentBoundary<Coordinate2D> {
 
-//    private static final Coordinate2D zero = new Coordinate2D(0, 0);
     private final Logger logger;
 
     public AbsorbingAgentBoundary2D(Shape<Coordinate2D> shape) {

@@ -32,7 +32,7 @@ public class AgentLayerContent {
                         .put((Coordinate) c, null));
         agentIdIndex = new AgentIdIndex();
         agentToCoordMap = new IdentityHashMap<>();
-        outOfBounds = new HashSet<>();
+        outOfBounds = new HashMap<>();
     }
 
     public void put(Agent agent, Coordinate coordinate) {

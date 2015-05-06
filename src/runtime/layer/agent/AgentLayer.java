@@ -32,7 +32,7 @@ public class AgentLayer {
 
     public AgentLayer(Topology topology) {
         this.topology = topology;
-        this.content = new AgentLayerContent(topology.getCanonicalSites());
+        this.content = new AgentLayerContent(topology);
         this.swapHelper = new AgentSwapHelper(content);
     }
 
