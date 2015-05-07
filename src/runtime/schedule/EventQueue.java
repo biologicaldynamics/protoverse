@@ -6,6 +6,7 @@
 package runtime.schedule;
 
 import runtime.schedule.event.DeterministicEvent;
+import runtime.util.halt.NoMoreEvents;
 
 import java.util.IdentityHashMap;
 import java.util.TreeMap;
@@ -38,6 +39,9 @@ public class EventQueue {
      * @return
      */
     public EventBlock pop() {
+        if (nodeTree.size() == 0) {
+            throw new NoMoreEvents();
+        }
         Double time = nodeTree.firstKey();
         EventBlock block = nodeTree.get(time);
         nodeTree.remove(time);

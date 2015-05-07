@@ -6,8 +6,10 @@ import runtime.topology.coordinate.Coordinate;
 
 import java.util.HashMap;
 import java.util.IdentityHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
@@ -43,8 +45,7 @@ public class InfiniteAgentLayerGraphManager extends AgentLayerGraphManager {
     @Override
     public Coordinate locate(Agent agent) {
         if (!agentToCoordMap.containsKey(agent)) {
-            throw new IllegalStateException("Attempted to locate agent, but " +
-                    "the agent did not have a location.");
+            return null;
         }
         return agentToCoordMap.get(agent);
     }
@@ -62,6 +63,18 @@ public class InfiniteAgentLayerGraphManager extends AgentLayerGraphManager {
             coordToAgentMap.put(coordinate, agent);
         }
         agentToCoordMap.put(agent, canonical);
+    }
+
+    public Agent get(Coordinate coordinate) {
+        if (coordinate.isOverbounds()) {
+            if (outOfBounds.containsKey(coordinate)) {
+                return outOfBounds.get(coordinate);
+            } else {
+                return null;
+            }
+        } else {
+            return coordToAgentMap.get(coordinate);
+        }
     }
 
     @Override
@@ -95,7 +108,15 @@ public class InfiniteAgentLayerGraphManager extends AgentLayerGraphManager {
     @Override
     public void cleanUp() {
         Consumer<Agent> consumer = topology.getOverboundsConsumer();
-        outOfBounds.values().stream().forEach(consumer::accept);
+
+        // Convert to a new list to avoid concurrent modification exception
+        List<Agent> toRemove = outOfBounds
+                .values()
+                .stream()
+                .collect(Collectors.toList());
+
+        // Now, remove from the map using elements from the separate list
+        toRemove.stream().forEach(consumer::accept);
     }
 
     @Override

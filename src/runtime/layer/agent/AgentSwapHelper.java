@@ -6,6 +6,7 @@
 package runtime.layer.agent;
 
 import runtime.agent.Agent;
+import runtime.layer.agent.graph.AgentLayerGraphManager;
 import runtime.topology.coordinate.Coordinate;
 
 /**
@@ -13,15 +14,15 @@ import runtime.topology.coordinate.Coordinate;
  */
 public class AgentSwapHelper {
 
-    private final AgentLayerContent content;
+    private final AgentLayerGraphManager graphManager;
 
-    public AgentSwapHelper(AgentLayerContent content) {
-        this.content = content;
+    public AgentSwapHelper(AgentLayerGraphManager graphManager) {
+        this.graphManager = graphManager;
     }
 
     public void swap(Coordinate p, Coordinate q) {
-        Agent pAgent = content.get(p);
-        Agent qAgent = content.get(q);
+        Agent pAgent = graphManager.get(p);
+        Agent qAgent = graphManager.get(q);
 
         removeIfNotNull(pAgent);
         removeIfNotNull(qAgent);
@@ -35,13 +36,13 @@ public class AgentSwapHelper {
             return;
         }
 
-        content.put(agent, coord);
+        graphManager.put(agent, coord);
     }
 
     private void removeIfNotNull(Agent agent) {
         if (agent == null) {
             return;
         }
-        content.remove(agent);
+        graphManager.remove(agent);
     }
 }

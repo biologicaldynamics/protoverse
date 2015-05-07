@@ -20,6 +20,15 @@ public abstract class AgentLayerGraphManager {
     public abstract Coordinate locate(Agent agent);
 
     /**
+     * Provide the agent currently occupying coordinate c, or null if the site
+     * is vacant.
+     *
+     * @param c
+     * @return
+     */
+    public abstract Agent get(Coordinate c);
+
+    /**
      * Place an agent in the specified location. If the location is out of
      * bounds, handle that in the manner appropriate to the topology.
      *

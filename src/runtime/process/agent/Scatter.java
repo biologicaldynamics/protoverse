@@ -55,5 +55,6 @@ public class Scatter extends AgentProcess {
         Stream<Coordinate> candidates = siteSupplier.get();
         Stream<Coordinate> targets = chooser.choose(candidates, count.get());
         targets.forEach(establisher::establish);
+        System.out.println("finishing scatter");
     }
 }

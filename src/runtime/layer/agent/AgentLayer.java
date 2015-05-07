@@ -6,6 +6,7 @@
 package runtime.layer.agent;
 
 import runtime.agent.Agent;
+import runtime.layer.agent.graph.AgentLayerGraphManager;
 import runtime.topology.Topology;
 import runtime.topology.coordinate.Coordinate;
 
@@ -17,27 +18,29 @@ import java.util.stream.Stream;
  */
 public class AgentLayer {
 
-    private final AgentLayerContent content;
     private final AgentSwapHelper swapHelper;
     private final Topology topology;
+    private final AgentLayerGraphManager graphManager;
+    private final AgentIdIndex agentIdIndex;
 
-    public AgentLayer(AgentLayerContent content,
-                      Topology topology,
+    public AgentLayer(Topology topology,
                       AgentSwapHelper swapHelper) {
 
-        this.content = content;
         this.topology = topology;
         this.swapHelper = swapHelper;
+        graphManager = topology.getGraphManager();
+        agentIdIndex = new AgentIdIndex();
     }
 
     public AgentLayer(Topology topology) {
+        graphManager = topology.getGraphManager();
+        agentIdIndex = new AgentIdIndex();
         this.topology = topology;
-        this.content = new AgentLayerContent(topology);
-        this.swapHelper = new AgentSwapHelper(content);
+        this.swapHelper = new AgentSwapHelper(graphManager);
     }
 
     public Coordinate locate(Agent agent) {
-        return content.locate(agent);
+        return graphManager.locate(agent);
     }
 
     public Topology getTopology() {
@@ -45,11 +48,11 @@ public class AgentLayer {
     }
 
     public void put(Agent agent, Coordinate coordinate) {
-        content.put(agent, coordinate);
+        graphManager.put(agent, coordinate);
     }
 
     public void remove(Agent agent) {
-        content.remove(agent);
+        graphManager.remove(agent);
     }
 
     public void swap(Coordinate p, Coordinate q) {
@@ -57,14 +60,18 @@ public class AgentLayer {
     }
 
     public Stream<Coordinate> getVacancies() {
-        return content.getVacancies();
+        return graphManager.getVacancies();
     }
 
     public AgentIdIndex getAgentIdIndex() {
-        return content.getAgentIdIndex();
+        return agentIdIndex;
     }
 
     public boolean isVacant(Coordinate location) {
-        return content.isVacant(location);
+        return graphManager.isVacant(location);
+    }
+
+    public void cleanUp() {
+        graphManager.cleanUp();
     }
 }

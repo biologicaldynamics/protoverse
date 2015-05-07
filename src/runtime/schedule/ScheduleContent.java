@@ -61,9 +61,11 @@ public class ScheduleContent {
     }
 
     public void unlink(Entity entity) {
-        Stream<DeterministicEvent> events = multimap.get(entity);
-        events.forEach(queue::remove);
-        multimap.remove(entity);
+        if (multimap.has(entity)) {
+            Stream<DeterministicEvent> events = multimap.get(entity);
+            events.forEach(queue::remove);
+            multimap.remove(entity);
+        }
     }
 
     public void update(Entity entity) {

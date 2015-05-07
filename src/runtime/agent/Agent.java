@@ -47,7 +47,12 @@ public class Agent implements Entity {
         return locator.get();
     }
 
-//    public String getLayerId() {
+    @Override
+    public boolean exists() {
+        return locator.get() != null;
+    }
+
+    //    public String getLayerId() {
 //        return layerResolver.get();
 //    }
 

@@ -20,10 +20,10 @@ public class EventSchedule {
     private final Logger logger;
     private double time;
 
-    public EventSchedule() {
+    public EventSchedule(Runnable cleanup) {
         logger = LoggerFactory.getLogger(EventSchedule.class);
         schedulerContent = new ScheduleContent();
-        runner = new EventBlockRunner(schedulerContent);
+        runner = new EventBlockRunner(cleanup, schedulerContent);
         time = 0.0;
     }
 

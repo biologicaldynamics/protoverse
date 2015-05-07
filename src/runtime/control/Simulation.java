@@ -36,4 +36,9 @@ public class Simulation implements Runnable, Entity {
     public Double getTime() {
         return schedule.getTime();
     }
+
+    @Override
+    public boolean exists() {
+        return true;
+    }
 }

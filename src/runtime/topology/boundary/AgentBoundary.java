@@ -6,6 +6,8 @@
 package runtime.topology.boundary;
 
 import runtime.agent.Agent;
+import runtime.layer.agent.graph.AgentLayerGraphManager;
+import runtime.topology.Topology;
 import runtime.topology.coordinate.Coordinate;
 import runtime.topology.shape.Shape;
 
@@ -52,4 +54,6 @@ public abstract class AgentBoundary<C extends Coordinate> {
     public abstract Consumer<Agent> getOverboundsConsumer();
 
     public abstract C canonicalize(C input);
+
+    public abstract AgentLayerGraphManager getGraphManager(Topology callback);
 }

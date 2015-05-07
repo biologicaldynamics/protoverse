@@ -8,6 +8,8 @@ package runtime.topology.boundary;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import runtime.agent.Agent;
+import runtime.layer.agent.graph.AgentLayerGraphManager;
+import runtime.topology.Topology;
 import runtime.topology.coordinate.Coordinate2D;
 import runtime.topology.shape.Shape;
 
@@ -17,7 +19,7 @@ import java.util.stream.Stream;
 /**
  * Created by dbborens on 3/10/15.
  */
-public class AbsorbingAgentBoundary2D extends AgentBoundary<Coordinate2D> {
+public class AbsorbingAgentBoundary2D extends InfiniteAgentBoundary<Coordinate2D> {
 
     private final Logger logger;
 
@@ -49,7 +51,11 @@ public class AbsorbingAgentBoundary2D extends AgentBoundary<Coordinate2D> {
 
     @Override
     public Coordinate2D canonicalize(Coordinate2D input) {
-        return input.asOverbounds();
+        if (shape.isOverbounds(input)) {
+            return input.asOverbounds();
+        } else {
+            return input;
+        }
     }
 
 }

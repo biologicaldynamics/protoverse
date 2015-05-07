@@ -67,16 +67,17 @@ public class SimulationSymbolTable extends MapSymbolTable<Simulation> {
     public Simulation instantiate(MapObjectNode node) {
         logger.debug("Instantiating node as a SimulationSymbolTable.");
 
-        // Build the simulation itself.
-        EventSchedule schedule = new EventSchedule();
-        Global global = new Global();
-        Simulation simulation = new Simulation(schedule);
-
         // Build the topology.
         MapObjectNode topologyNode = (MapObjectNode) node.getMember("topology");
         TopologyInstanceSymbolTable topoST = (TopologyInstanceSymbolTable) topologyNode.getSymbolTable();
         Topology topology = topoST.instantiate(topologyNode);
         AgentLayer agentLayer = new AgentLayer(topology);
+
+        // Build the simulation itself.
+        Runnable cleanup = () -> agentLayer.cleanUp();
+        EventSchedule schedule = new EventSchedule(cleanup);
+        Global global = new Global();
+        Simulation simulation = new Simulation(schedule);
 
         // Build initial actions.
         ListObjectNode initially = (ListObjectNode) node.getMember("initially");

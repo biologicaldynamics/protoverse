@@ -161,4 +161,29 @@ public class InfiniteAgentLayerGraphManagerTest extends TestBase {
         when(topology.canonicalize(c)).thenReturn(d);
         assertSame(d, query.canonicalize(c));
     }
+
+    @Test
+    public void getVacantCanonical() throws Exception {
+        coordToAgentMap.put(c, null);
+        assertNull(query.get(c));
+    }
+
+    @Test
+    public void getVacantOutOfBounds() throws Exception {
+        when(c.isOverbounds()).thenReturn(true);
+        assertNull(query.get(c));
+    }
+
+    @Test
+    public void getOccupiedCanonical() throws Exception {
+        coordToAgentMap.put(c, agent);
+        assertSame(agent, query.get(c));
+    }
+
+    @Test
+    public void getOccupiedOutOfBounds() throws Exception {
+        when(c.isOverbounds()).thenReturn(true);
+        outOfBounds.put(c, agent);
+        assertSame(agent, query.get(c));
+    }
 }

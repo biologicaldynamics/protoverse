@@ -29,6 +29,10 @@ public class IdentityMultimap<K, V> {
     }
 
     public Stream<V> get(K key) {
+        Set<V> value = contents.get(key);
+        if (value == null) {
+            return Stream.empty();
+        }
         return contents.get(key).stream();
     }
 

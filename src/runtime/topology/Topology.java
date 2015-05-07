@@ -8,6 +8,7 @@ package runtime.topology;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import runtime.agent.Agent;
+import runtime.layer.agent.graph.AgentLayerGraphManager;
 import runtime.topology.boundary.AgentBoundary;
 import runtime.topology.coordinate.Coordinate;
 
@@ -43,5 +44,9 @@ public class Topology<C extends Coordinate> {
 
     public Consumer<Agent> getOverboundsConsumer() {
         return boundary.getOverboundsConsumer();
+    }
+
+    public AgentLayerGraphManager getGraphManager() {
+        return boundary.getGraphManager(this);
     }
 }

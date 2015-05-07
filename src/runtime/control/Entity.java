@@ -12,4 +12,5 @@ package runtime.control;
  * Created by dbborens on 4/27/15.
  */
 public interface Entity {
+    boolean exists();
 }
