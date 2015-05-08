@@ -13,36 +13,24 @@ import runtime.schedule.event.DeterministicEvent;
  * Created by dbborens on 3/8/15.
  */
 public class EventBlockRunner {
-    private final ScheduleContent content;
     private final Logger logger;
-    private final Runnable cleanup;
+    private final EventRunner runner;
 
     public EventBlockRunner(Runnable cleanup, ScheduleContent content) {
-        this.cleanup = cleanup;
-        this.content = content;
+        runner = new EventRunner(cleanup, content);
+        logger = LoggerFactory.getLogger(EventBlockRunner.class);
+    }
+
+    public EventBlockRunner(EventRunner runner) {
+        this.runner = runner;
         logger = LoggerFactory.getLogger(EventBlockRunner.class);
     }
 
     public void run(EventBlock block) {
-         block.get()
-                 .forEach(event -> {
-                     logger.trace("Running {}",
-                             event.toString());
-
-                     doRun(event);
-
-                 });
+        block.get().forEach(event -> {
+            logger.trace("Running {}", event.toString());
+            runner.doRun(event);
+        });
     }
 
-    private void doRun(DeterministicEvent event) {
-        boolean stillActive = event.run();
-        cleanup.run();
-        if (stillPresent(event) && stillActive) {
-            content.add(event);
-        }
-    }
-
-    private boolean stillPresent(DeterministicEvent event) {
-        return event.getEntity().exists();
-    }
 }

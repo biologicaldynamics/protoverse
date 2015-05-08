@@ -7,6 +7,17 @@ import static org.mockito.Mockito.*;
 
 public class EventScheduleTest {
 
+    private EventBlockRunner runner;
+    private ScheduleContent content;
+    private EventSchedule query;
+
+    @Before
+    public void before() throws Exception {
+        runner = mock(EventBlockRunner.class);
+        content = mock(ScheduleContent.class);
+        query = new EventSchedule(runner, content);
+    }
+
     @Test
     public void getTime() throws Exception {
         fail();

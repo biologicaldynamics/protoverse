@@ -57,10 +57,10 @@ public class InfiniteAgentLayerGraphManagerTest extends TestBase {
         doLocateTest(true);
     }
 
-    @Test(expected = IllegalStateException.class)
+    @Test
     public void locateAbsent() throws Exception {
         Agent agent = mock(Agent.class);
-        query.locate(agent);
+        assertNull(query.locate(agent));
     }
 
     @Test

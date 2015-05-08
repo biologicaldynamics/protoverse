@@ -20,14 +20,14 @@ import java.util.stream.Stream;
  */
 public class Scatter extends AgentProcess {
 
-    private AgentDescriptor establisher;
-    private Supplier<Stream<Coordinate>> siteSupplier;
-    private RandomChooser<Coordinate> chooser;
-    private Supplier<Integer> count;
+    private final AgentDescriptor descriptor;
+    private final Supplier<Stream<Coordinate>> siteSupplier;
+    private final RandomChooser<Coordinate> chooser;
+    private final Supplier<Integer> count;
 
     /**
      *
-     * @param establisher AgentProducer for the type of agent
+     * @param descriptor AgentProducer for the type of agent
      *                 to be scattered.
      *
      * @param siteSupplier Provides a stream of coordinates
@@ -39,12 +39,12 @@ public class Scatter extends AgentProcess {
      * @param count Supplier of number of agents to scatter.
      *              (Can be different each time.)
      */
-    public Scatter(AgentDescriptor establisher,
+    public Scatter(AgentDescriptor descriptor,
                    Supplier<Stream<Coordinate>> siteSupplier,
                    RandomChooser<Coordinate> chooser,
                    Supplier<Integer> count) {
 
-        this.establisher = establisher;
+        this.descriptor = descriptor;
         this.siteSupplier = siteSupplier;
         this.chooser = chooser;
         this.count = count;
@@ -54,7 +54,6 @@ public class Scatter extends AgentProcess {
     public void run() {
         Stream<Coordinate> candidates = siteSupplier.get();
         Stream<Coordinate> targets = chooser.choose(candidates, count.get());
-        targets.forEach(establisher::establish);
-        System.out.println("finishing scatter");
+        targets.forEach(descriptor::establish);
     }
 }

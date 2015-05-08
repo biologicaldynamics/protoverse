@@ -80,7 +80,9 @@ public class InfiniteAgentLayerGraphManager extends AgentLayerGraphManager {
     @Override
     public void remove(Agent agent) {
         Coordinate coordinate = locate(agent);
-        if (coordinate.isOverbounds()) {
+        if (coordinate == null) {
+            throw new IllegalStateException("Attempted to remove non-existed agent");
+        } else if (coordinate.isOverbounds()) {
             outOfBounds.remove(coordinate);
         } else {
             coordToAgentMap.put(coordinate, null);

@@ -24,12 +24,13 @@ public class AgentLayer {
     private final AgentIdIndex agentIdIndex;
 
     public AgentLayer(Topology topology,
-                      AgentSwapHelper swapHelper) {
+                      AgentSwapHelper swapHelper,
+                      AgentIdIndex agentIdIndex) {
 
         this.topology = topology;
         this.swapHelper = swapHelper;
+        this.agentIdIndex = agentIdIndex;
         graphManager = topology.getGraphManager();
-        agentIdIndex = new AgentIdIndex();
     }
 
     public AgentLayer(Topology topology) {
