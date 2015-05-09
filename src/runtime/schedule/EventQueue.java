@@ -15,9 +15,9 @@ import java.util.TreeMap;
  * Created by dbborens on 3/9/15.
  */
 public class EventQueue {
-    private TreeMap<Double, EventBlock> nodeTree;
-    private IdentityHashMap<DeterministicEvent, EventBlock> eventMap;
-    private EventQueuePruner pruner;
+    private final TreeMap<Double, EventBlock> nodeTree;
+    private final IdentityHashMap<DeterministicEvent, EventBlock> eventMap;
+    private final EventQueuePruner pruner;
 
     public EventQueue() {
         nodeTree = new TreeMap<>();
@@ -57,7 +57,7 @@ public class EventQueue {
      */
     public void remove(DeterministicEvent event) {
         if (!eventMap.containsKey(event)) {
-            throw new IllegalArgumentException("Trying to remove unrecognized event");
+            throw new IllegalStateException("Trying to remove unrecognized event");
         }
         EventBlock block = eventMap.get(event);
         pruner.remove(event, block);
@@ -80,7 +80,7 @@ public class EventQueue {
      * Reports the number of events scheduled.
      * @return
      */
-    public int getNumEvents() {
+    public int size() {
         return eventMap.size();
     }
 
@@ -89,7 +89,7 @@ public class EventQueue {
      * currently scheduled.
      * @return
      */
-    public int getMoments() {
+    public int getMomentCount() {
         return nodeTree.size();
     }
 }

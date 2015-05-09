@@ -33,7 +33,7 @@ public class ScheduleContent {
     public void add(DeterministicEvent event) {
         Entity entity = event.getEntity();
         if (multimap.has(entity, event)) {
-            throw new IllegalArgumentException("Attempting double scheduling of entity-event pair.");
+            throw new IllegalStateException("Attempting double scheduling of entity-event pair.");
         }
         queue.add(event);
 
